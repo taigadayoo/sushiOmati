@@ -1,0 +1,66 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Tetromino
+  - Maguro
+  - negitoro
+  - Ika
+  - Samon
+  - Ebi
+  - Uni
+  - Amaebi
+  - Ikura
+  - Niku
+  - Egg
+  - Tyawan
+  - Beel
+  - hasi
+  - Perfect
+  - Nomal
+  - Bad
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - Effect
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: test
+    uniqueID: 1130652831
+    locked: 0
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: effect
+    uniqueID: 878991749
+    locked: 0
