@@ -46,7 +46,7 @@ public class SushiButton : MonoBehaviour
     {
         foreach (Perfectbool perfectbool in Perfectbool.allPerfectbools)
         {
-            if (perfectbool.gameManager.OnmaguroPerfect && perfectbool.sushi == SushiChat.maguro && sushi == Sushi.maguro)
+            if (perfectbool.gameManager.OnmaguroPerfect && perfectbool.sushi == SushiChat.maguro && sushi == Sushi.maguro)//例）押されたのがマグロの時のパーフェクト処理判定
             {
                 Debug.Log("完璧 (maguro)");
                 perfectbool.DestroyObjects();
@@ -54,7 +54,7 @@ public class SushiButton : MonoBehaviour
                 gameManager.AddScore(scoreAdd);
                 break;
             }
-            else if (perfectbool.gameManager.OnnegitoroPerfect && perfectbool.sushi == SushiChat.negitoro && sushi == Sushi.negitoro)
+            else if (perfectbool.gameManager.OnnegitoroPerfect && perfectbool.sushi == SushiChat.negitoro && sushi == Sushi.negitoro)//以下からも同様の処理
             {
                 Debug.Log("完璧 (negitoro)");
                 perfectbool.DestroyObjects();

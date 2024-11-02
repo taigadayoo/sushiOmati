@@ -4,39 +4,53 @@ using UnityEngine;
 
 public class Perfectbool : MonoBehaviour
 {
-   
+    // 対象となる寿司のデータ
     [SerializeField]
-   public SushiChat sushi;
+    public SushiChat sushi;
 
+    // WaribasiMove コンポーネントの参照
     WaribasiMove waribasiMove;
-  public  GameManager gameManager;
 
+    // ゲームマネージャーの参照
+    public GameManager gameManager;
+
+    // 衝突したオブジェクトを保持
     private GameObject collidedObject;
-    // Start is called before the first frame update
 
-    public static List<Perfectbool> allPerfectbools = new List<Perfectbool>(); // 全インスタンスを保持するリスト
+    // 全インスタンスを保持するリスト
+    public static List<Perfectbool> allPerfectbools = new List<Perfectbool>();
 
+    // テキスト表示用のスクリプト
     TextSpawn textSpawn;
 
+    // Start is called before the first frame update
     void Start()
     {
+        // GameManagerのインスタンスを取得
         gameManager = FindObjectOfType<GameManager>();
-        allPerfectbools.Add(this); // インスタンスをリストに追加
+        // このインスタンスをリストに追加
+        allPerfectbools.Add(this);
+        // TextSpawnコンポーネントを取得
         textSpawn = FindObjectOfType<TextSpawn>();
     }
 
+    // オブジェクトが破壊された時にリストから削除
     void OnDestroy()
     {
-        allPerfectbools.Remove(this); // オブジェクトが破壊された時にリストから削除
+        allPerfectbools.Remove(this);
     }
 
+    // オブジェクトがトリガーに入っている間の処理
     private void OnTriggerStay2D(Collider2D collision)
     {
+        // 衝突したオブジェクトのWaribasiMoveコンポーネントを取得
         waribasiMove = collision.GetComponent<WaribasiMove>();
         collidedObject = collision.gameObject;
 
+        // 寿司が一致し、タグが "hasi" の場合
         if (waribasiMove != null && sushi == waribasiMove.selectedSushi && collision.gameObject.tag == "hasi")
         {
+            // 寿司の種類に応じてゲームマネージャーの状態を更新
             switch (sushi)
             {
                 case SushiChat.maguro:
@@ -78,45 +92,57 @@ public class Perfectbool : MonoBehaviour
             }
         }
     }
+
+    // パーフェクト時のエフェクト処理
     public IEnumerator EfectPerfect()
     {
+        // エフェクトを表示
         OnEffect(textSpawn.Great);
 
+        // 効果音を再生
         SampleSoundManager.Instance.PlaySe(SeType.SE2);
         yield return new WaitForSeconds(0.1f);
 
+        // 衝突したオブジェクトを削除
         if (collidedObject != null)
         {
             Destroy(collidedObject);
         }
+
+        // 親オブジェクトを削除、親がいない場合は自身を削除
         if (transform.parent != null)
         {
-            Destroy(transform.parent.gameObject);  // 親オブジェクトを削除
+            Destroy(transform.parent.gameObject);
         }
         else
         {
-            Destroy(gameObject);  // 親がいない場合は自身を削除
+            Destroy(gameObject);
         }
     }
-  public void  DestroyObjects()
+
+    // オブジェクトを削除するメソッド
+    public void DestroyObjects()
     {
         StartCoroutine(EfectPerfect());
     }
+
+    // パーティクルエフェクトを表示
     public void OnEffect(ParticleSystem effect)
     {
-     
+        // パーティクルのインスタンスを作成
         ParticleSystem newParticle = Instantiate(effect);
-
-        // パーティクルの発生場所をこのスクリプトをアタッチしているGameObjectの場所にする。
+        // パーティクルの発生場所を設定
         newParticle.transform.position = collidedObject.transform.position;
-        // パーティクルを発生させる。
+        // パーティクルを再生
         newParticle.Play();
-        // インスタンス化したパーティクルシステムのGameObjectを5秒後に削除する。(任意)
-        // ※第一引数をnewParticleだけにするとコンポーネントしか削除されない。
+        // パーティクルシステムを5秒後に削除
         Destroy(newParticle.gameObject, 5.0f);
     }
+
+    // オブジェクトがトリガーから出たときの処理
     private void OnTriggerExit2D(Collider2D collision)
     {
+        // 寿司の種類に応じてゲームマネージャーの状態をリセット
         if (sushi == SushiChat.maguro && collision.gameObject.tag == "hasi")
         {
             gameManager.OnmaguroPerfect = false;
